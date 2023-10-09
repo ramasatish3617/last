@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="f36f7c09-7c8c-40aa-af22-df2c8c23d137" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<flow name="mondayFlow" doc:id="f1ab2a33-1e20-4d99-a80e-8a4a56eee2db" >
+		<http:listener doc:name="Listener" doc:id="50e3508d-28fd-4163-b2c0-b1fb414a0baa" config-ref="HTTP_Listener_config" path="/day"/>
+		<logger level="INFO" doc:name="Logger" doc:id="93a46bd7-07df-4184-9fb6-06ef0ece1b38" message="This is day flow"/>
+		<ee:transform doc:name="Transform Message" doc:id="df0b3456-784a-491f-b04e-cf52bf68aae4" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+{
+	"message":"Thsis is day flow"
+}]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>
